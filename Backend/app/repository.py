@@ -36,7 +36,6 @@ def get_users(db: Session = Depends(get_db), search: str = ''):
 # Store User Repository
 @router.post("/repositories")
 def store_github_repositories(usernames: list, db: Session = Depends(get_db)):
-    # If user already exist in db
     no_user = []
     for username in usernames:
         user_response = requests.get(
