@@ -1,0 +1,4 @@
+uvicorn[standard]
+fastapi==0.92.0
+requests==2.28.2
+SQLAlchemy==2.0.4
