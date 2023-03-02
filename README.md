@@ -26,7 +26,7 @@
     ```
     npm start
     ```
-### Backend (Create a virtual Environment using venv)
+### Backend 
 
 1. Create Virtual Environment using venv
 
