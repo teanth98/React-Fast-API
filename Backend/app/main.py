@@ -28,4 +28,4 @@ app.include_router(repository.router, tags=['Repository'], prefix='/api/user')
 
 @app.get("/api/healthchecker")
 def root():
-    return {"message": "Welcome to FastAPI with SQLAlchemy"}
+    return {"message": "Welcome to Github Search User"}

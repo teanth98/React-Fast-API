@@ -6,7 +6,8 @@ from .database import get_db
 import requests
 router = APIRouter()
 
-#Filter Users
+
+# Filter Users
 @router.get('/', include_in_schema=False)
 def get_users(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: str = ''):
     skip = (page - 1) * limit
@@ -14,9 +15,8 @@ def get_users(db: Session = Depends(get_db), limit: int = 10, page: int = 1, sea
         models.Users.username.contains(search)).limit(limit).offset(skip).all()
     return {'status': 'success', 'results': len(users), 'usernames': users}
 
+
 # Get Repos
-
-
 @router.get('/repos')
 def get_repos(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: str = ''):
     skip = (page - 1) * limit
