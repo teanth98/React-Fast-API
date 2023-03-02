@@ -36,7 +36,7 @@
 2. Activate the virtual environment
 
     ```
-    .\venv1\Scripts\activate
+    .\venv\Scripts\activate
     ```
 3. Change Directory to Backend
 
