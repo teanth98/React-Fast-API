@@ -2,11 +2,6 @@
     <h1>Search Git Users</h1>
 </div>
 
-
-
-
-
-
 ## ⚙️ Install
 
 ### Frontend
@@ -31,19 +26,29 @@
     ```
     npm start
     ```
-### Backend
+### Backend 
 
-1. Open cmd/terminal
+1. Create Virtual Environment using venv
+
+    ```
+    python3.10 -m venv venv
+    ```
+2. Activate the virtual environment
+
+    ```
+    .\venv\Scripts\activate
+    ```
+3. Change Directory to Backend
 
     ```
     cd Backend
     ```
-2. Inside the terminal enter
+4. Install requirements using pip
 
     ```
     pip install -r requirements.txt
     ```
-4. Run
+5. Run
 
     ```
     uvicorn app.main:app --host localhost --port 8000 --reload
