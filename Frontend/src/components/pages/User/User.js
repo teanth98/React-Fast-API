@@ -5,7 +5,9 @@ import axios from "../../../axios";
 import Repo from "../../ui/Repo";
 
 const User = () => {
+  // console.log("useParams",useParams);
   const { login } = useParams();
+  // console.log("login",login)
 
   //UserInformation
   const [userInfo, setUserInfo] = useState({});
@@ -29,6 +31,7 @@ const User = () => {
 
   const handlePageLimit = (e) => {
     const value = e.target.value;
+    console.log("value",value);
     setLimit(parseInt(value));
   };
 

@@ -4,12 +4,16 @@ from sqlalchemy import exc
 from fastapi import Depends, APIRouter
 from .database import get_db
 import requests
+import time
 router = APIRouter()
 
 
 # Filter Users
-@router.get('/', include_in_schema=False)
+@router.get('/')
 def get_users(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: str = ''):
+    if search=="":
+        return {'status': 'success', 'results': len(users), 'usernames': []}
+
     skip = (page - 1) * limit
     users = db.query(models.Users).filter(
         models.Users.username.contains(search)).limit(limit).offset(skip).all()
@@ -26,7 +30,7 @@ def get_repos(db: Session = Depends(get_db), limit: int = 10, page: int = 1, sea
 
 
 # Get User Details
-@router.get('/user-details', include_in_schema=False)
+@router.get('/user-details')
 def get_users(db: Session = Depends(get_db), search: str = ''):
     user_info = db.query(models.Users).filter(
         models.Users.id.contains(search)).all()

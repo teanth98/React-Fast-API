@@ -1,72 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import "./Home.css";
 import User from "../../ui/User";
 import axios from "axios";
 
 const Home = () => {
   const [query, setQuery] = useState("");
-  //Users fetched from the API
   const [users, setUsers] = useState([]);
-  //Page
   const [page, setPage] = useState(1);
-  //Per page
   const [limit, setLimit] = useState(10);
 
-  const handleQueryInput = (e) => {
+  const handleQueryInput = useCallback((e) => {
     const value = e.target.value;
     setQuery(value);
-  };
-  const handlePrevPage = () => {
+  }, []);
+
+  const handlePrevPage = useCallback(() => {
     setPage((page) => {
       if (page === 1) return page;
       else return page - 1;
     });
-  };
+  }, []);
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     setPage((page) => page + 1);
-  };
+  }, []);
 
-  const handlePageLimit = (e) => {
+  const handlePageLimit = useCallback((e) => {
     const value = e.target.value;
     setLimit(parseInt(value));
-  };
+  }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const { data } = await axios.get('http://localhost:8000/api/user', {
-        params: {
-          search: query,
-          page: page,
-          limit: limit
-        }
-      });
-      return data?.usernames;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
-  const handleSearchUsers = async (e) => {
+  const handleSearchUsers = useCallback(async (e) => {
     e.preventDefault();
     if (query) {
-      const items = await fetchUsers();
-      setUsers(items);
+      try {
+        const { data } = await axios.get("http://localhost:8000/api/user", {
+          params: {
+            search: query,
+            page: page,
+            limit: limit,
+          },
+        });
+        setUsers(data?.usernames);
+      } catch (error) {
+        console.error(error);
+        setUsers([]);
+      }
     } else {
       console.log("Your query is empty...");
+      setUsers([]);
     }
-  };
+  }, [query, page, limit]);
 
-  useEffect(() => {
-    const displayUsersOnChange = async () => {
-      if (query) {
-        const items = await fetchUsers();
-        setUsers(items);
-      }
-    };
-    displayUsersOnChange();
-  }, [page, limit]);
+  const displayedUsers = useMemo(() => {
+    if (users && users.length) {
+      return users.map((user) => <User user={user} key={user.id} />);
+    } else {
+      return <h2>There is nothing to display...</h2>;
+    }
+  }, [users]);
 
   return (
     <div className="container">
@@ -93,16 +85,10 @@ const Home = () => {
             <button onClick={handleNextPage}>{page + 1}</button>
           </div>
         </div>
-        {users ? (
-          users.map((user) => {
-            return <User user={user} key={user.id} />;
-          })
-        ) : (
-          <h2>There is nothing to display...</h2>
-        )}
+        {displayedUsers}
       </div>
     </div>
   );
 };
- 
+
 export default Home;

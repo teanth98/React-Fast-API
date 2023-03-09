@@ -7,6 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+      {/* localhost:3000 */}
         <Route path="/" element={<Home />} />
         <Route path="/user/:login" element={<User />} />
       </Routes>
